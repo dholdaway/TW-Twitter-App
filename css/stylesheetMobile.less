@@ -1,0 +1,135 @@
+@import "../lib/bootstrap/less/bootstrap.less";
+
+/*Variables*/
+@colourGray:#dddddd;
+@colourLightGray:#eeeeee;
+@colourWhite:#ffffff;
+@textColour:#383838;
+@linkHoverColour:#009CFF;
+
+
+.clear{ clear:both; }
+.wrap{ height:auto; min-height:100%;}
+
+html{ height:100%; }
+body{ font-family: 'Source Sans Pro', arial, sans-serif; *font-family: arial, sans-serif; color:@textColour; height:100%; }
+h2, h3{ color:#333333; font-size:2em; }
+a.drawLink{ color:#333333; text-decoration:none;  }
+
+ul{ list-style-type:none; }
+
+.pageBroadShoulder{ margin-top:100px; }
+.broadShoulderContainer{ position:relative; list-style-type:none !important; margin-top:20px !important; margin-left:0px !important; padding-left:0px !important; }
+
+hr{ 
+	border-top:1px solid #cccccc;
+	border-bottom:none;
+	border-left:none;
+	border-right:none;
+	
+}
+
+.ui-bar-a{
+	background-color:#d6d6d6 !important;
+	border:1px solid #d6d6d6 !important;
+	height:100px;
+	font-weight:bold;
+	background:none;
+}
+
+.ui-content{
+	padding:0px;
+	padding-top:15px;
+}
+
+.fixedHeader{
+	background-color:#622c00;
+	width:80px;
+	height:80px;
+	color:#ffffff;
+	text-align: center;
+	cursor:pointer;
+	position: fixed;
+	left:0px;
+	top:115px;
+		span{
+			font-size:6.5em;
+			margin-top:30px;
+			display: block;
+		}
+}
+.sidebarHiddenContent{
+	display:none;
+	background-color:#622c00;
+	position:fixed;
+	top:115px;
+	left:80px;
+	height:80px;
+	width:100%;
+		input.searchTermInput{
+			height:40px;
+			font-weight:bold;
+			width:50%;
+		}
+		.addBtn{
+			height:40px;	
+		}		
+}
+.twitterFeedControls{
+	display:none;
+	padding-top:0px;
+}
+
+.contentAreaBlank .widgetHeader{
+	display:none;
+}
+
+.widget{
+	background-color:#ff7200;
+	color:#d6d6d6;
+	padding:0 24px 0 24px;
+	font-weight:bold;
+	text-shadow:none;
+		.widgetHeader{
+			padding:2px 0 2px 0;
+				h3{
+					color:#d6d6d6;
+					text-shadow:none;
+				}
+		}
+		.widgetMainText{
+			.linkWrapper{
+				a{
+					color:#0f91ce;
+				}
+				a.hashTag{
+					color:#b80000;
+				}
+				a.atTag{
+					color:#ffe931;
+				}
+			}
+		}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
