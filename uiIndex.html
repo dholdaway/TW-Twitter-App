@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>tomjwilliamson - Front End Developer - Home</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="css/stylesheetUI.less" type="text/less" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/less-1.3.0.min.js"></script>
+<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="lib/bootstrap/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="lib/modernizr.custom.js"></script>
+
+
+<script type="text/javascript" src="lib/jquery.masonry.js"></script>
+<script type="text/javascript" src="lib/jquery.throttledresize.js"></script>
+<script type="text/javascript" src="js/broadShoulderLayout.js"></script>
+
+<script type="text/javascript" src="lib/underscore.js"></script>
+<script type="text/javascript" src="js/uiFunctions.js"></script>
+<script type="text/javascript" src="js/twitterFunction.js"></script>
+<script type="text/javascript">
+    var initOnce = _.once(tweetUI.init);
+    initOnce(); 
+</script>
+
+
+
+</head>
+
+<body>
+
+	<section class="container-fluid clear">
+		<div class="row-fluid">
+			<div class="span12">				
+				<div class="row-fluid">
+		
+					<header class="header">				
+						<div class="navbar">
+							<span class="pull-left logoText"><a href="/">header logo</a></span>
+							
+							<!--<div class="twitterFeedControls pull-right">
+								<input type="text" placeholder="enter search term" class="searchTermInput" />
+								<button type="button" class="addBtn">Add</button>
+							</div>-->
+							
+							
+						</div>
+					</header>
+					
+					<section class="sidebar">
+						
+						<div class="fixedHeader">
+							<span>Click to add more feeds</span>
+						<!--end fixed header-->
+						</div>
+						
+						<div class="sidebarHiddenContent">
+							<div class="twitterFeedControls">
+								<form class="form-search">
+									<input type="text" placeholder="enter search term" class="searchTermInput input-medium search-query" />
+									<!--<div class="input-prepend">
+										<span class="add-on">@</span><input class="searchTermInput" id="prependedInput" type="text" placeholder="enter text">
+									</div>-->
+									<button type="button" class="addBtn btn">Add</button>
+									<!--<span class="addAnotherLink">+ Add another</span>-->
+								</form>
+								
+								<!--<button type="button" class="trendsBtn btn">Get popular trends</button>-->
+								
+								
+							</div>
+						</div>
+						
+					
+					</section>
+					
+					<ul class="oldTitles">
+						
+					</ul>
+					
+					<section class="mainContent">
+					
+						<div class="pageBroadShoulder container-fixed clear">
+
+							<ul class="row broadShoulderContainer fluid">
+								<li class="contentAreaBlank">
+
+                                    <div class="preloaderWrapper">
+                                        <img src="images/ajax-loader.gif" alt="pre loader image" width="16" height="16" class="preloaderImg" />
+                                    </div>
+								
+									<article class="widget">
+										
+										<div class="widgetMainText">
+											
+										</div>
+										
+										<div class="clear"></div>
+										
+										<span class="widgetArrow followArrow"><img src="images/yellowArrow.png" alt="yellow arrow" width="12" height="9" />&nbsp;follow</span>
+										
+										<span class="widgetArrow commentArrow"><img src="images/blueArrow.png" alt="blue arrow" width="12" height="9" />&nbsp;comment</span>
+										
+										<div class="commentWrapper">
+											
+										</div>
+										
+									<!-- end article-->	
+									</article>
+								 </li>
+	
+								
+								<!--<li class="contentArea col1">
+									<article class="widget">
+										<img src="images/widgetImg.jpg" alt="img 1" />
+										
+										<div class="widgetHeaderSection">
+											<h3>Lorem ipsum dolor</h3>
+											<span class="postedByBtn">posted by: Mr Smith <img src="images/userThumb.png" alt="thumb" width="14" height="14" /></span>
+										</div>
+										
+										<div class="clear"></div>
+										
+										<p class="widgetMainText">Donec aliquet nunc ut dolor consequat pharetra. Mauris tempus, dolor vel pellentesque placerat, libero lectus auctor justo, non sollicitudin neque massa a magna.</p>
+										
+										<p class="widgetMainText">Donec aliquet nunc ut dolor consequat pharetra. Mauris tempus, dolor vel pellentesque placerat, libero lectus auctor justo, non sollicitudin neque massa a magna.</p>
+										
+										<div class="clear"></div>
+										
+										<span class="widgetArrow"><img src="images/yellowArrow.png" alt="yellow arrow" width="12" height="9" />&nbsp;follow</span>
+										
+										<span class="widgetArrow commentArrow"><img src="images/blueArrow.png" alt="blue arrow" width="12" height="9" />&nbsp;comment</span>
+										
+									
+									</article>
+									
+								</li>-->
+								
+							</ul>
+									
+						</div>
+						
+						
+					
+					
+					
+					<!--end mainContent-->
+					</section>
+					
+				</div>
+			</div>
+		</div>
+					
+									
+				
+	</section>
+	<!--<footer class="clear footer">
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span3">
+					<span>tomjwilliamson</span>
+				</div>
+				<div class="span9">
+					<ul class="nav pull-right">
+						<li class="active"><a href="/">Home</a></li>
+						<li><a href="/work.html">Work</a></li>
+						<li><a href="/contact.html">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>-->
+
+	<div class="commentBackground">
+		<div class="alphaWrapper">&nbsp;</div>
+		<span class="closeBtn">x</span>
+		<form class="commentForm">
+			<fieldset>
+				<input type="text" placeholder="name" name="name" id="commentName" />
+				<textarea placeholder="enter comment here..." id="commentText"></textarea>
+				<button type="button" class="commentSubmit">Submit</button>
+			</fieldset>
+		</form>
+	</div>
+
+    <div class="errorBackground">
+        <div class="alphaWrapper">&nbsp;</div>
+
+        <h2>Sorry the feed you requested couldn't be found</h2>
+
+
+    </div>
+	
+	
+<!--<div id="loading">
+  <div class="modal"><img src="http://i.stack.imgur.com/FhHRx.gif" /> Please Wait</div>
+</div>-->
+
+
+
+
+</body>
+
+</html>
+
