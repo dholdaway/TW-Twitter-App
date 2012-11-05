@@ -1,8 +1,8 @@
 tweetUI = {
 
-
     init: function () {
 
+        //document ready functions
         $(document).ready(function () {
 
             windowResize();
@@ -17,18 +17,13 @@ tweetUI = {
                 }
             });
 
-            //Sets the columns on window re-size --- using throttledresize to reduce the events fired
-            //$(window).on("throttledresize", function (event) {
-            //    windowResize();
-            //});
-
             var throttled = _.throttle(windowResize, 100);
             $(window).resize(throttled);
 
-           
+            //click event which passes input data to dataForTwitterSearch
             $('.addBtn').live('click', function (event) {
                 var $termInputBox = $('.searchTermInput').val();
-                dataForTwitterSearch(event, $termInputBox);
+                tweetUI.dataForTwitterSearch(event, $termInputBox);
             });
 
             //Allows user to press enter to add feed
@@ -41,121 +36,130 @@ tweetUI = {
                 });
             });
 
-            dataForTwitterSearch = function (event, $termInputBox) {
+        });
 
-                if ($termInputBox != "") {
-                    event.preventDefault();
-                    $('.sidebarHiddenContent').slideUp(500);
-                    $('.contentAreaBlank').clone().appendTo('.broadShoulderContainer');
-                    searchTerm = $termInputBox;
-                    tweetUI.getTwitterDataAndAppend(searchTerm);
-                    $('.contentAreaBlank:last').removeClass('contentAreaBlank').addClass('contentArea').hide();
-                    $('.preloaderWrapper:last').show();
-                }
-                else {
-                    alert('empty');
-                }
+    },
 
-            },
+    //gets the data from input and passes it into main function and clones contentArea
+    dataForTwitterSearch: function (event, $termInputBox) {
 
-            linkFunction = function () {
+        var $contentAreaBlank = $('.contentAreaBlank');
 
-                $('.linkWrapper').each(function (index, element) {
+        if ($termInputBox != "") {
+            event.preventDefault();
+            $('.sidebarHiddenContent').slideUp(500);
+            $contentAreaBlank.clone().appendTo('.broadShoulderContainer');
+            searchTerm = $termInputBox;
+            tweetUI.getTwitterDataAndAppend(searchTerm);
+            $('.contentAreaBlank:last').removeClass('contentAreaBlank').addClass('contentArea').hide();
+            $('.preloaderWrapper:last').show();
+        }
+        else {
+            alert('empty');
+        }
 
-                    var $element = $(element);
-                    $arrowElement = $element.children('.arrowIcon');
+    },
 
-                    $arrowElement.click(function (event) {
-                        event.stopImmediatePropagation();
-                        var $target = $(event.target);
-                        $termInputBox = $target.siblings('.hashTag').attr('hashname');
+    //turns icons next to '@' and '#' into links
+    linkFunction: function () {
 
-                        console.log($termInputBox);
-                        dataForTwitterSearch(event, $termInputBox);
+        $('.linkWrapper').each(function (index, element) {
 
-                    });
+            var $element = $(element);
+            $arrowElement = $element.children('.arrowIcon');
 
-                });
+            $arrowElement.click(function (event) {
+                event.stopImmediatePropagation();
+                var $target = $(event.target);
+                $termInputBox = $target.siblings('.hashTag').attr('hashname');
 
-            },
+                console.log($termInputBox);
+                tweetUI.dataForTwitterSearch(event, $termInputBox);
 
-            contentAreaCountAndIfEmpty = function (data) {
-                var feedCount = $('.broadShoulderContainer').children('li.contentArea').length;
-
-                if (feedCount > 4) {
-                    var feedTitle = $('.contentArea:first').find('h3').text();
-                    $('.oldTitles').append('<li class="feedTitleItem">' + feedTitle + '</li>');
-                    $('.contentArea:first').remove('.contentArea:first');
-                    $('.broadShoulderContainer').masonry('reload');
-                }
-                else {
-                    //do nothing
-                }
-
-                var amountOfParagraphs = $('.widgetMainText:last').find('p').length;
-
-                if (amountOfParagraphs < 1) {
-                    console.log('no text');
-                    $('.widgetMainText:last').append('<h3>This is blank...</h3>');
-                }
-                else {
-                    console.log('has text')
-                }
-
-            }
-
-            oldTitlesFunction = function () {
-
-                $('.feedTitleItem').click(function (event) {
-
-                    event.stopImmediatePropagation();
-                    var $target = $(event.target);
-                    $termInputBox = $target.text();
-                    console.log('old feed title ' + $termInputBox);
-
-                    dataForTwitterSearch(event, $termInputBox);
-
-                    $(this).remove('.feedTitleItem');
-
-                });
-            }
-
-
-            tweetError = function () {
-                $('.errorBackground').fadeIn('slow');
-
-                $('.contentArea:last').remove('.contentArea:last');
-
-                setTimeout(function () {
-                    $(".errorBackground").fadeOut("slow");
-                }, 2000);
-            }
-
-
-
+            });
 
         });
 
     },
 
-    user: 'bbcsport',
-    numTweets: 5,
-    appendTo: "widgetMainText",
+    //Only allows 4 feeds to be shown at once, and checks if any are empty and adds 'blank' content
+    contentAreaCountAndIfEmpty: function (data) {
 
+        var $broadShoulderContainer = $('.broadShoulderContainer');
+        var feedCount = $broadShoulderContainer.children('li.contentArea').length;
+
+        if (feedCount > 4) {
+            var feedTitle = $('.contentArea:first').find('h3').text();
+            var appendOldTitleHtml = '<li class="feedTitleItem">' + feedTitle + '</li>';
+            $('.oldTitles').append(appendOldTitleHtml);
+            $('.contentArea:first').remove('.contentArea:first');
+            $broadShoulderContainer.masonry('reload');
+        }
+        else {
+            //do nothing
+        }
+
+        var $widgetMainTextLast = $('.widgetMainText:last');
+        var amountOfParagraphs = $widgetMainTextLast.find('p').length;
+        var appendBlankMessage = '<h3>This is blank...</h3>';
+
+        if (amountOfParagraphs < 1) {
+            console.log('no text');
+            $widgetMainTextLast.append(appendBlankMessage);
+        }
+        else {
+            console.log('has text')
+        }
+
+    },
+
+    //adds click event to 'old' feeds (after 4 have been displayed)
+    oldTitlesFunction: function () {
+
+        $('.feedTitleItem').click(function (event) {
+
+            event.stopImmediatePropagation();
+            var $target = $(event.target);
+            $termInputBox = $target.text();
+            console.log('old feed title ' + $termInputBox);
+
+            tweetUI.dataForTwitterSearch(event, $termInputBox);
+
+            $(this).remove('.feedTitleItem');
+
+        });
+    },
+
+    //Error handling -- shows error message
+    tweetError: function () {
+        $('.errorBackground').fadeIn('slow');
+
+        $('.contentArea:last').remove('.contentArea:last');
+
+        setTimeout(function () {
+            $(".errorBackground").fadeOut("slow");
+        }, 2000);
+    },
+
+    //Number of tweets to show
+    numTweets: 5,
+
+    //main function -- gets data from twitter and appends to container
     getTwitterDataAndAppend: function (searchTerm) {
 
-        user = searchTerm;
+        var $broadShoulderContainer = $('.broadShoulderContainer');
+        var $widgetMainTextLast = $(".widgetMainText:last");
 
-        //user = 'bbcsport';
-
+        //user = searchTerm;
+        user = 'bbcsport';
         console.log(user);
 
         $.ajax({
-            url: 'http://api.twitter.com/1/statuses/user_timeline.json/',
-            //url: 'file:///C:/Projects/Tom/Tom/Twitter%20App/js/testData.html',
+            //url: 'http://api.twitter.com/1/statuses/user_timeline.json/',
+            url: 'file:///C:/Projects/Tom/Tom/TwitterApp/js/testData.html',
             cache: true,
             type: 'GET',
-            dataType: 'jsonp',
+            dataType: 'json',
             data: {
                 screen_name: user,
                 include_rts: true,
@@ -169,7 +173,7 @@ tweetUI = {
             success: function (data, textStatus, xhr) {
 
                 $('.contentArea:last').hide();
-                $(".widgetMainText:last").append("<h3>" + searchTerm + "</h3>");
+                $widgetMainTextLast.append("<h3>" + searchTerm + "</h3>");
 
                 var textDefault = { textNiches: "No content..." };
                 _.defaults(textDefault, { textNiches: "no text", dateNiches: "no date" });
@@ -180,20 +184,22 @@ tweetUI = {
                 console.log(textNiches, dateNiches);
 
                 for (i = 0; i < data.length; i++) {
-                    $(".widgetMainText:last").append("<p>" + tweetUI.ify.clean(textNiches[i]) + "</p>" +
-                                                     "<p>" + tweetUI.timeAgo(dateNiches[i]) + "</p>" +
-                                                     "<hr />");
+                    var appendedTweetDataHtml = "<p>" + tweetUI.ify.clean(textNiches[i]) + "</p>" +
+                                                "<p>" + tweetUI.timeAgo(dateNiches[i]) + "</p>" +
+                                                "<hr />";
+                    $widgetMainTextLast.append(appendedTweetDataHtml);
                 }
-                contentAreaCountAndIfEmpty();
-                linkFunction();
-                oldTitlesFunction();
-                $('.broadShoulderContainer').masonry('reload');
+
+                tweetUI.contentAreaCountAndIfEmpty();
+                tweetUI.linkFunction();
+                tweetUI.oldTitlesFunction();
+                $broadShoulderContainer.masonry('reload');
                 $('.contentArea:last').fadeIn(500);
                 $('.preloaderWrapper:last').fadeOut(500);
 
             },
             error: function () {
-                tweetError();
+                tweetUI.tweetError();
 
             }
         });
