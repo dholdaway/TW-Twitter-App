@@ -36,6 +36,13 @@ tweetUI = {
                 });
             });
 
+            //Feed close button ('x')
+            $('.closeBtn').live('click', function (event) {
+                console.log('yep');
+                $(this).parents('li').remove();
+                $('.broadShoulderContainer').masonry('reload');
+            });
+
         });
 
     },
