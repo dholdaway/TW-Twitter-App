@@ -1,1 +1,1 @@
-Backup of the files for a test Twitter app
+A Twitter app built in HTML5 and jQuery. Allows User to enter a search term and limits the feed count to 4. Has sideways twitter navigation -- can open more feeds using icons next to '@' or '#' tag.
