@@ -1,13 +1,75 @@
 tweetUI = {
 
-    init: function () {
+    config: {
+        //$selectors
+        $addFeedButton: $('.addBtn'),
+        $addFeedInputBox: $('.searchTermInput'),
+        $addFeedForm: $('.form-search'),
+        $feedCloseButton: $('.closeBtn'),
+        $blankContentArea: $('.contentAreaBlank'),
+        $arrowLinkWrapper: $('.linkWrapper'),
+        $feedTitle: $('.feedTitleItem'),
+
+        //classes
+
+        //Used for the main wrapper which the masonry reload function will be call on
+        masonryContainerClass: '.broadShoulderContainer',
+        
+        //These are set to li's which wrap the individual content feeds
+        masonryContentContainerClass: '.contentArea',
+        masonryFirstContentContainerClass: '.contentArea:first',
+        masonryLastContentContainerClass: '.contentArea:last',
+        blankContentAreaClass: '.contentAreaBlank',
+        lastBlankContentAreaClass: '.contentAreaBlank:last',
+        //The last text area within the content
+        contentLastTextArea: '.widgetMainText:last',
+
+        //elements on the sidebar
+        addFeedButtonClass: '.addBtn',
+        addFeedInputBoxClass: '.searchTermInput',
+        addFeedFormClass: '.form-search',
+        hiddenSidebarClass: '.sidebarHiddenContent',
+
+        //pre loader class
+        lastPreloaderClass: '.preloaderWrapper:last',
+        
+        //these are used for the 'sideways' open feed functionality 
+        arrowLinkWrapperClass: '.linkWrapper',
+        arrowIconClass: '.arrowIcon',
+        linkSiblingClass: '.hashTag',
+
+        //container for old feed titles
+        oldFeedTitleClass: '.oldTitles',
+        //individual title class
+        feedTitleItemClass: '.feedTitleItem',
+
+        //main error handling
+        feedError: '.errorBackground',
+        
+        //class names without '.' for adding/removing
+        toggleClassContentArea: 'contentArea',
+        toggleClassContentAreaBlank: 'contentAreaBlank',
+
+        //attr used on link as link for term for new feed 
+        linkCustomAttributeName: 'hashname',
+
+        //tag that surrounds the feed title -- both should be the same
+        contentTakenAsOldTitle:'h2',
+        feedTitleWrapper: 'h2',
+
+        //Blank message
+        appendedMessageIfBlank: '<h3>This feed is blank...</h3>',
+
+    },
+
+    init: function (config) {
 
         //document ready functions
         $(document).ready(function () {
 
             windowResize();
-            $('.broadShoulderContainer').masonry({
-                itemSelector: '.contentArea',
+            $(tweetUI.config.masonryContainerClass).masonry({
+                itemSelector: tweetUI.config.masonryContentContainerClass,
                 isAnimated: true,
                 animationOptions: {
                     duration: 400
@@ -21,26 +83,25 @@ tweetUI = {
             $(window).resize(throttled);
 
             //click event which passes input data to dataForTwitterSearch
-            $('.addBtn').live('click', function (event) {
-                var $termInputBox = $('.searchTermInput').val();
+            tweetUI.config.$addFeedButton.live('click', function (event) {
+                var $termInputBox = $(tweetUI.config.addFeedInputBoxClass).val();
                 tweetUI.dataForTwitterSearch(event, $termInputBox);
             });
 
             //Allows user to press enter to add feed
-            $('.form-search').ready(function () {
+            tweetUI.config.$addFeedForm.ready(function () {
                 $(window).keydown(function (event) {
                     if (event.keyCode == 13) {
                         event.preventDefault();
-                        $('.addBtn').trigger('click');
+                        $(tweetUI.config.addFeedButtonClass).trigger('click');
                     }
                 });
             });
 
             //Feed close button ('x')
-            $('.closeBtn').live('click', function (event) {
-                console.log('yep');
+            tweetUI.config.$feedCloseButton.live('click', function (event) {
                 $(this).parents('li').remove();
-                $('.broadShoulderContainer').masonry('reload');
+                $(tweetUI.config.masonryContainerClass).masonry('reload');
             });
 
         });
@@ -48,18 +109,18 @@ tweetUI = {
     },
 
     //gets the data from input and passes it into main function and clones contentArea
-    dataForTwitterSearch: function (event, $termInputBox) {
+    dataForTwitterSearch: function (event, $termInputBox, config) {
 
-        var $contentAreaBlank = $('.contentAreaBlank');
+        var $contentAreaBlank = $(tweetUI.config.blankContentAreaClass);
 
         if ($termInputBox != "") {
             event.preventDefault();
-            $('.sidebarHiddenContent').slideUp(500);
-            $contentAreaBlank.clone().appendTo('.broadShoulderContainer');
+            $(tweetUI.config.hiddenSidebarClass).slideUp(500);
+            $contentAreaBlank.clone().appendTo(tweetUI.config.masonryContainerClass);
             searchTerm = $termInputBox;
             tweetUI.getTwitterDataAndAppend(searchTerm);
-            $('.contentAreaBlank:last').removeClass('contentAreaBlank').addClass('contentArea').hide();
-            $('.preloaderWrapper:last').show();
+            $(tweetUI.config.lastBlankContentAreaClass).removeClass(tweetUI.config.toggleClassContentAreaBlank).addClass(tweetUI.config.toggleClassContentArea).hide();
+            $(tweetUI.config.lastPreloaderClass).show();
         }
         else {
             alert('empty');
@@ -68,17 +129,17 @@ tweetUI = {
     },
 
     //turns icons next to '@' and '#' into links
-    linkFunction: function () {
+    linkFunction: function (config) {
 
-        $('.linkWrapper').each(function (index, element) {
+        $(tweetUI.config.arrowLinkWrapperClass).each(function (index, element) {
 
             var $element = $(element);
-            $arrowElement = $element.children('.arrowIcon');
+            $arrowElement = $element.children(tweetUI.config.arrowIconClass);
 
             $arrowElement.click(function (event) {
                 event.stopImmediatePropagation();
                 var $target = $(event.target);
-                $termInputBox = $target.siblings('.hashTag').attr('hashname');
+                $termInputBox = $target.siblings(tweetUI.config.linkSiblingClass).attr(tweetUI.config.linkCustomAttributeName);
 
                 console.log($termInputBox);
                 tweetUI.dataForTwitterSearch(event, $termInputBox);
@@ -90,61 +151,58 @@ tweetUI = {
     },
 
     //Only allows 4 feeds to be shown at once, and checks if any are empty and adds 'blank' content
-    contentAreaCountAndIfEmpty: function (data) {
+    contentAreaCountAndIfEmpty: function (data, config) {
 
-        var $broadShoulderContainer = $('.broadShoulderContainer');
-        var feedCount = $broadShoulderContainer.children('li.contentArea').length;
+        var $broadShoulderContainer = $(tweetUI.config.masonryContainerClass);
+        var feedCount = $broadShoulderContainer.children(tweetUI.config.masonryContentContainerClass).length;
 
         if (feedCount > 4) {
-            var feedTitle = $('.contentArea:first').find('h3').text();
+            var feedTitle = $(tweetUI.config.masonryFirstContentContainerClass).find(tweetUI.config.contentTakenAsOldTitle).text();
             var appendOldTitleHtml = '<li class="feedTitleItem">' + feedTitle + '</li>';
-            $('.oldTitles').append(appendOldTitleHtml);
-            $('.contentArea:first').remove('.contentArea:first');
+            $(tweetUI.config.oldFeedTitleClass).append(appendOldTitleHtml);
+            $(tweetUI.config.masonryFirstContentContainerClass).remove(tweetUI.config.masonryFirstContentContainerClass);
             $broadShoulderContainer.masonry('reload');
         }
         else {
             //do nothing
         }
 
-        var $widgetMainTextLast = $('.widgetMainText:last');
+        var $widgetMainTextLast = $(tweetUI.config.contentLastTextArea);
         var amountOfParagraphs = $widgetMainTextLast.find('p').length;
-        var appendBlankMessage = '<h3>This is blank...</h3>';
+        var appendBlankMessage = tweetUI.config.appendedMessageIfBlank;
 
         if (amountOfParagraphs < 1) {
-            console.log('no text');
             $widgetMainTextLast.append(appendBlankMessage);
         }
         else {
-            console.log('has text')
+            //do nothing
         }
 
     },
 
     //adds click event to 'old' feeds (after 4 have been displayed)
-    oldTitlesFunction: function () {
+    oldTitlesFunction: function (config) {
 
-        $('.feedTitleItem').click(function (event) {
+        $(tweetUI.config.feedTitleItemClass).click(function (event) {
 
             event.stopImmediatePropagation();
             var $target = $(event.target);
             $termInputBox = $target.text();
-            console.log('old feed title ' + $termInputBox);
-
             tweetUI.dataForTwitterSearch(event, $termInputBox);
 
-            $(this).remove('.feedTitleItem');
+            $(this).remove(tweetUI.config.feedTitleItemClass);
 
         });
     },
 
     //Error handling -- shows error message
     tweetError: function () {
-        $('.errorBackground').fadeIn('slow');
+        $(tweetUI.config.feedError).fadeIn('slow');
 
-        $('.contentArea:last').remove('.contentArea:last');
+        $(tweetUI.config.masonryLastContentContainerClass).remove(tweetUI.config.masonryLastContentContainerClass);
 
         setTimeout(function () {
-            $(".errorBackground").fadeOut("slow");
+            $(tweetUI.config.feedError).fadeOut("slow");
         }, 2000);
     },
 
@@ -152,21 +210,21 @@ tweetUI = {
     numTweets: 5,
 
     //main function -- gets data from twitter and appends to container
-    getTwitterDataAndAppend: function (searchTerm) {
+    getTwitterDataAndAppend: function (searchTerm, config) {
 
-        var $broadShoulderContainer = $('.broadShoulderContainer');
-        var $widgetMainTextLast = $(".widgetMainText:last");
+        var $broadShoulderContainer = $(tweetUI.config.masonryContainerClass);
+        var $widgetMainTextLast = $(tweetUI.config.contentLastTextArea);
 
-        //user = searchTerm;
-        user = 'bbcsport';
+        user = searchTerm;
+        //user = 'bbcsport';
         console.log(user);
 
         $.ajax({
-            //url: 'http://api.twitter.com/1/statuses/user_timeline.json/',
-            url: 'file:///C:/Projects/Tom/Tom/TwitterApp/js/testData.html',
+            url: 'http://api.twitter.com/1/statuses/user_timeline.json/',
+            //url: 'file:///C:/Projects/Tom/Tom/TwitterApp/js/testData.html',
             cache: true,
             type: 'GET',
-            dataType: 'json',
+            dataType: 'jsonp',
             data: {
                 screen_name: user,
                 include_rts: true,
@@ -179,8 +237,8 @@ tweetUI = {
             timeout: 1500,
             success: function (data, textStatus, xhr) {
 
-                $('.contentArea:last').hide();
-                $widgetMainTextLast.append("<h3>" + searchTerm + "</h3>");
+                $(tweetUI.config.masonryLastContentContainerClass).hide();
+                $widgetMainTextLast.append("<" + tweetUI.config.feedTitleWrapper + ">" + searchTerm + "</" + tweetUI.config.feedTitleWrapper + ">");
 
                 var textDefault = { textNiches: "No content..." };
                 _.defaults(textDefault, { textNiches: "no text", dateNiches: "no date" });
@@ -201,8 +259,8 @@ tweetUI = {
                 tweetUI.linkFunction();
                 tweetUI.oldTitlesFunction();
                 $broadShoulderContainer.masonry('reload');
-                $('.contentArea:last').fadeIn(500);
-                $('.preloaderWrapper:last').fadeOut(500);
+                $(tweetUI.config.masonryLastContentContainerClass).fadeIn(500);
+                $(tweetUI.config.lastPreloaderClass).fadeOut(500);
 
             },
             error: function () {
