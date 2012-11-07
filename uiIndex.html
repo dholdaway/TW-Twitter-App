@@ -23,8 +23,10 @@
 <script type="text/javascript" src="js/uiFunctions.js"></script>
 <script type="text/javascript" src="js/twitterFunction.js"></script>
 <script type="text/javascript">
-    var initOnce = _.once(tweetUI.init);
-    initOnce(); 
+    var tweetInitOnce = _.once(tweetUI.init);
+    tweetInitOnce(); 
+    var layoutInitOnce = _.once(layoutUI.init);
+    layoutInitOnce();
 </script>
 
 </head>
@@ -113,52 +115,17 @@
 										
 									<!-- end article-->	
 									</article>
-								 </li>
-	
-								
-								<!--<li class="contentArea col1">
-									<article class="widget">
-										<img src="images/widgetImg.jpg" alt="img 1" />
-										
-										<div class="widgetHeaderSection">
-											<h3>Lorem ipsum dolor</h3>
-											<span class="postedByBtn">posted by: Mr Smith <img src="images/userThumb.png" alt="thumb" width="14" height="14" /></span>
-										</div>
-										
-										<div class="clear"></div>
-										
-										<p class="widgetMainText">Donec aliquet nunc ut dolor consequat pharetra. Mauris tempus, dolor vel pellentesque placerat, libero lectus auctor justo, non sollicitudin neque massa a magna.</p>
-										
-										<p class="widgetMainText">Donec aliquet nunc ut dolor consequat pharetra. Mauris tempus, dolor vel pellentesque placerat, libero lectus auctor justo, non sollicitudin neque massa a magna.</p>
-										
-										<div class="clear"></div>
-										
-										<span class="widgetArrow"><img src="images/yellowArrow.png" alt="yellow arrow" width="12" height="9" />&nbsp;follow</span>
-										
-										<span class="widgetArrow commentArrow"><img src="images/blueArrow.png" alt="blue arrow" width="12" height="9" />&nbsp;comment</span>
-										
-									
-									</article>
-									
-								</li>-->
+								 </li>	
 								
 							</ul>
 									
 						</div>
 						
-						
-					
-					
-					
 					<!--end mainContent-->
 					</section>
-					
 				</div>
 			</div>
-		</div>
-					
-									
-				
+		</div>			
 	</section>
 	<!--<footer class="clear footer">
 		<div class="container-fluid">
