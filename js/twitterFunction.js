@@ -33,7 +33,7 @@ tweetUI = {
         //pre loader class
         lastPreloaderClass: '.preloaderWrapper:last',
         
-        //these are used for the 'sideways' open feed functionality 
+        //these are used for the 'sideways' open feed functionality
         arrowLinkWrapperClass: '.linkWrapper',
         arrowIconClass: '.arrowIcon',
         linkSiblingClass: '.hashTag',
@@ -50,7 +50,7 @@ tweetUI = {
         toggleClassContentArea: 'contentArea',
         toggleClassContentAreaBlank: 'contentAreaBlank',
 
-        //attr used on link as link for term for new feed 
+        //attr used on link as link for term for new feed
         linkCustomAttributeName: 'hashname',
 
         //tag that surrounds the feed title -- both should be the same
@@ -58,7 +58,7 @@ tweetUI = {
         feedTitleWrapper: 'h2',
 
         //Blank message
-        appendedMessageIfBlank: '<h3>This feed is blank...</h3>',
+        appendedMessageIfBlank: '<h3>This feed is blank...</h3>'
 
     },
 
@@ -84,6 +84,7 @@ tweetUI = {
 
             //click event which passes input data to dataForTwitterSearch
             tweetUI.config.$addFeedButton.live('click', function (event) {
+                
                 var $termInputBox = $(tweetUI.config.addFeedInputBoxClass).val();
                 tweetUI.dataForTwitterSearch(event, $termInputBox);
             });
@@ -375,4 +376,4 @@ tweetUI = {
     } // ify
 
 
-}
+};
