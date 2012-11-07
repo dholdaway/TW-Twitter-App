@@ -1,8 +1,10 @@
+var j$ = jQuery.noConflict();
+
 function windowResize() { 
   
   	//detects browser width
-	var browserWidth = $(document).width();
-	var newClass, container = $('.contentArea');
+	var browserWidth = j$(document).width();
+	var newClass, container = j$('.contentArea');
 	
 	//sets the column count in relation to the screen size
 	if( browserWidth <= 480 ){
